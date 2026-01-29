@@ -1,0 +1,48 @@
+[project]
+name = "crm-django-ninja"
+version = "0.1.0"
+description = "CRM para supermercado com Django Ninja"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.0.1",
+    "django-ninja>=1.5.3",
+    "django-ninja-extra>=0.30.9",
+    "rich>=14.3.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.hatch.build.targets.sdist]
+packages = ["src"]
+
+[tool.uv]
+# Garante que o uv trate a pasta src como a raiz do pacote
+package = true
+
+[tool.ruff]
+# Define onde o código fonte reside para análise
+src = ["src"]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+# Habilita o isort (I) para organizar imports
+select = ["ALL"]
+
+[tool.ruff.lint.isort]
+# Crucial: Identifica seu projeto como "first-party" para o isort
+known-first-party = ["src"]
+
+[tool.pyright]
+include = ["src"]
+# Faz o Pyright olhar dentro de src para resolver os imports
+extraPaths = ["src"]
+typeCheckingMode = "basic"
+pythonVersion = "3.14"
