@@ -8,7 +8,11 @@ dependencies = [
     "django>=6.0.1",
     "django-ninja>=1.5.3",
     "django-ninja-extra>=0.30.9",
+    "django-stubs>=5.2.9",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.1",
     "rich>=14.3.1",
+    "ruff>=0.14.14",
 ]
 
 [build-system]
@@ -35,6 +39,7 @@ target-version = "py314"
 [tool.ruff.lint]
 # Habilita o isort (I) para organizar imports
 select = ["ALL"]
+ignore = ["ANN401"]
 
 [tool.ruff.lint.isort]
 # Crucial: Identifica seu projeto como "first-party" para o isort
