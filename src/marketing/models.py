@@ -1,3 +1,4 @@
+# pyright: reportIncompatibleVariableOverride=false, reportUninitializedInstanceVariable=false, reportImportCycles=false
 from __future__ import annotations
 
 from django.db import models
@@ -84,3 +85,41 @@ class Offer(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class Contact(models.Model):
+    class Type(models.TextChoices):
+        PHONE = "PHONE", _("Telefone")
+        EMAIL = "EMAIL", _("E-mail")
+        WHATSAPP = "WHATSAPP", _("WhatsApp")
+        OTHER = "OTHER", _("Outro")
+
+    type = models.CharField(max_length=20, choices=Type.choices, default=Type.OTHER)
+    value = models.CharField(_("Valor"), max_length=255)
+    is_active = models.BooleanField(_("Ativo"), default=True)
+
+    class Meta:
+        verbose_name = _("Contato")
+        verbose_name_plural = _("Contatos")
+
+    def __str__(self) -> str:
+        return f"{self.type} - {self.value}"
+
+
+class SocialMedia(models.Model):
+    class Type(models.TextChoices):
+        FACEBOOK = "FACEBOOK", _("Facebook")
+        INSTAGRAM = "INSTAGRAM", _("Instagram")
+        TWITTER = "TWITTER", _("Twitter")
+        OTHER = "OTHER", _("Outro")
+
+    type = models.CharField(max_length=20, choices=Type.choices, default=Type.OTHER)
+    value = models.CharField(_("Valor"), max_length=255)
+    is_active = models.BooleanField(_("Ativo"), default=True)
+
+    class Meta:
+        verbose_name = _("Rede Social")
+        verbose_name_plural = _("Redes Sociais")
+
+    def __str__(self) -> str:
+        return f"{self.type} - {self.value}"

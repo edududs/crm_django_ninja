@@ -1,13 +1,13 @@
-from typing import TYPE_CHECKING
+# pyright: reportIncompatibleVariableOverride=false, reportUninitializedInstanceVariable=false, reportImportCycles=false
+from __future__ import annotations
+
+from decimal import Decimal
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from catalog.models import Product
 from customer.models import Customer
-
-if TYPE_CHECKING:
-    from decimal import Decimal
 
 
 # Create your models here.

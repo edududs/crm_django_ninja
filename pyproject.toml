@@ -3,7 +3,7 @@ name = "crm-django-ninja"
 version = "0.1.0"
 description = "CRM para supermercado com Django Ninja"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "django>=6.0.1",
     "django-ninja>=1.5.3",
@@ -34,7 +34,7 @@ package = true
 # Define onde o código fonte reside para análise
 src = ["src"]
 line-length = 100
-target-version = "py314"
+target-version = "py312"
 
 [tool.ruff.lint]
 # Habilita o isort (I) para organizar imports
@@ -50,4 +50,4 @@ include = ["src"]
 # Faz o Pyright olhar dentro de src para resolver os imports
 extraPaths = ["src"]
 typeCheckingMode = "basic"
-pythonVersion = "3.14"
+pythonVersion = "3.12"

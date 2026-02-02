@@ -48,6 +48,7 @@ class Product(models.Model):
         ACTIVE = "ACTIVE", _("Ativo")
         INACTIVE = "INACTIVE", _("Inativo")
 
+    id = models.AutoField(primary_key=True)
     name = models.CharField(_("Nome"), max_length=255)
     description = models.TextField(_("Descrição"))
     price = models.DecimalField(_("Preço"), max_digits=10, decimal_places=2)

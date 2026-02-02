@@ -1,3 +1,4 @@
+# pyright: reportIncompatibleVariableOverride=false, reportUninitializedInstanceVariable=false, reportImportCycles=false
 from typing import TYPE_CHECKING
 
 from django.db import models
@@ -12,6 +13,11 @@ if TYPE_CHECKING:
 
 # Create your models here.
 class Order(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "PENDING", _("Pendente")
+        PAID = "PAID", _("Pago")
+        CANCELLED = "CANCELLED", _("Cancelado")
+
     customer = models.ForeignKey[Customer | None](
         Customer,
         on_delete=models.SET_NULL,
@@ -25,12 +31,12 @@ class Order(models.Model):
         _("Desconto aplicado"), max_digits=10, decimal_places=2, default=0
     )
 
-    sale_date = models.DateTimeField(_("Data da venda"), auto_now_add=True)
+    sale_date = models.DateTimeField(_("Data da venda"), help_text="Data e hora da venda")
     status = models.CharField(
         _("Status"),
         max_length=20,
-        choices=[("PENDING", _("Pendente")), ("PAID", _("Pago")), ("CANCELLED", _("Cancelado"))],
-        default="PENDING",
+        choices=Status.choices,
+        default=Status.PENDING,
     )
 
     class Meta:
