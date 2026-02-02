@@ -54,14 +54,22 @@ class Address(models.Model):
     customer = models.ForeignKey[Customer](
         Customer, on_delete=models.CASCADE, verbose_name=_("Cliente"), related_name="addresses"
     )
+    name = models.CharField(_("Nome"), max_length=255, blank=True)
+    latitude = models.FloatField(_("Latitude"), null=True, blank=True)
+    longitude = models.FloatField(_("Longitude"), null=True, blank=True)
+    zip_code = models.CharField(_("CEP"), max_length=255, blank=True)
     street = models.CharField(_("Rua"), max_length=255, blank=True)
     number = models.CharField(_("Número"), max_length=255, blank=True)
     complement = models.CharField(_("Complemento"), max_length=255, blank=True)
     neighborhood = models.CharField(_("Bairro"), max_length=255, blank=True)
     city = models.CharField(_("Cidade"), max_length=255, blank=True)
     state = models.CharField(_("Estado"), max_length=255, blank=True)
-    zip_code = models.CharField(_("CEP"), max_length=255, blank=True)
     country = models.CharField(_("País"), max_length=255, blank=True)
+    details = models.TextField(_("Detalhes"), blank=True)
+
+    main = models.BooleanField(_("Principal"), default=False)
+    created_at = models.DateTimeField(_("Data de criação"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Data de atualização"), auto_now=True)
 
     class Meta:
         verbose_name = _("Endereço")
