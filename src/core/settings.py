@@ -1,21 +1,14 @@
-import os
 from pathlib import Path
 
-from dotenv import load_dotenv
+from toolkit.settings import DjangoSettings
 
-load_dotenv()
-
-# PATHS & BASE
 BASE_DIR = Path(__file__).resolve().parent.parent
+# DEBUG only for these app loggers (use logging.getLogger(__name__) in views/services).
+APP_LOGGERS = ("catalog", "customer", "sales", "marketing", "group", "core")
+django_settings = DjangoSettings(base_dir=BASE_DIR, debug_loggers=list(APP_LOGGERS))
+globals().update(django_settings.export_django())
 
-# SEGURANÇA & DEBUG
-SECRET_KEY = os.getenv(
-    "SECRET_KEY", "django-insecure-$d=t@he-wf66fltli2ufm)o(pgb78f-n-bwwgd+ppj@2!vk$ro"
-)
-DEBUG = os.getenv("DEBUG", "True") == "True"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
-
-# APPS & MIDDLEWARE
+# Project-specific: not provided by the toolkit
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -39,12 +32,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-# URLS & WSGI
 ROOT_URLCONF = "core.urls"
 WSGI_APPLICATION = "core.wsgi.application"
-
-# TEMPLATES
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -59,20 +48,6 @@ TEMPLATES = [
         },
     }
 ]
-
-# DATABASE
-DATABASES = {
-    "default": {
-        "ENGINE": os.getenv("DATABASE_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.getenv("DATABASE_NAME", BASE_DIR / "db.sqlite3"),
-        "USER": os.getenv("DATABASE_USER", ""),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD", ""),
-        "HOST": os.getenv("DATABASE_HOST", ""),
-        "PORT": os.getenv("DATABASE_PORT", ""),
-    }
-}
-
-# AUTENTICAÇÃO
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -80,16 +55,3 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 AUTH_USER_MODEL = "customer.Customer"
-
-# LOCALIZAÇÃO, TEMPO E I18N
-LANGUAGE_CODE = os.getenv("LANGUAGE_CODE", "pt-br")
-TIME_ZONE = os.getenv("TIME_ZONE", "UTC")
-USE_I18N = USE_TZ = True
-
-# ESTÁTICOS E MÍDIA
-STATIC_URL = os.getenv("STATIC_URL", "static/")
-STATIC_ROOT = os.getenv("STATIC_ROOT", BASE_DIR / "staticfiles")
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
-MEDIA_URL = os.getenv("MEDIA_URL", "media/")
-MEDIA_ROOT = os.getenv("MEDIA_ROOT", BASE_DIR / "media")

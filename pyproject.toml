@@ -5,15 +5,21 @@ description = "CRM para supermercado com Django Ninja"
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 dependencies = [
+    "dj-database-url>=3.1.0",
     "django>=6.0.1",
     "django-ninja>=1.5.3",
     "django-ninja-extra>=0.30.9",
     "django-stubs>=5.2.9",
+    "httpx>=0.28.1",
+    "ipython>=9.10.0",
     "pydantic>=2.12.5",
+    "pydantic-settings>=2.12.0",
     "python-dotenv>=1.2.1",
     "rich>=14.3.1",
     "ruff>=0.14.14",
 ]
+[project.scripts]
+dj = "src.manage:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -47,7 +53,11 @@ known-first-party = ["src"]
 
 [tool.pyright]
 include = ["src"]
+exclude = ["**/.venv", "**/venv", "**/env", "**/.env", "**/migrations/**", ]
+venv = ".venv"
+venvPath = "."
+executionEnvironments = [{ root = "src" }]
 # Faz o Pyright olhar dentro de src para resolver os imports
 extraPaths = ["src"]
-typeCheckingMode = "basic"
+typeCheckingMode = "standard"
 pythonVersion = "3.12"
