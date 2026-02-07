@@ -3,6 +3,12 @@
 
 import os
 import sys
+from pathlib import Path
+
+# Ensure src is on the path so "core" and "toolkit" are importable when run from project root
+_src_dir = Path(__file__).resolve().parent
+if str(_src_dir) not in sys.path:
+    sys.path.insert(0, str(_src_dir))
 
 
 def main() -> None:
