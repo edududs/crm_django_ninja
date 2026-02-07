@@ -1,7 +1,5 @@
 # pyright: reportIncompatibleVariableOverride=false, reportUninitializedInstanceVariable=false, reportImportCycles=false
-from __future__ import annotations
-
-from decimal import Decimal
+from typing import TYPE_CHECKING
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -9,9 +7,17 @@ from django.utils.translation import gettext_lazy as _
 from catalog.models import Product
 from customer.models import Customer
 
+if TYPE_CHECKING:
+    from decimal import Decimal
+
 
 # Create your models here.
 class Order(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "PENDING", _("Pendente")
+        PAID = "PAID", _("Pago")
+        CANCELLED = "CANCELLED", _("Cancelado")
+
     customer = models.ForeignKey[Customer | None](
         Customer,
         on_delete=models.SET_NULL,
@@ -25,12 +31,12 @@ class Order(models.Model):
         _("Desconto aplicado"), max_digits=10, decimal_places=2, default=0
     )
 
-    sale_date = models.DateTimeField(_("Data da venda"), auto_now_add=True)
+    sale_date = models.DateTimeField(_("Data da venda"), help_text="Data e hora da venda")
     status = models.CharField(
         _("Status"),
         max_length=20,
-        choices=[("PENDING", _("Pendente")), ("PAID", _("Pago")), ("CANCELLED", _("Cancelado"))],
-        default="PENDING",
+        choices=Status.choices,
+        default=Status.PENDING,
     )
 
     class Meta:
@@ -51,7 +57,6 @@ class OrderItem(models.Model):
         on_delete=models.SET_NULL,
         verbose_name=_("Produto"),
         related_name="items",
-        null=True,
     )
     quantity = models.PositiveIntegerField(_("Quantidade"), default=1)
     price = models.DecimalField(_("Preço"), max_digits=10, decimal_places=2)
