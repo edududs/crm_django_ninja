@@ -75,7 +75,6 @@ class Offer(models.Model):
     products = models.ManyToManyField(
         Product, related_name="offers", verbose_name=_("Produtos Elegíveis")
     )
-
     # Público-alvo (opcional)
     is_exclusive_for_loyalty = models.BooleanField(_("Exclusivo Fidelidade"), default=False)
 
@@ -113,6 +112,14 @@ class SocialMedia(models.Model):
         TWITTER = "TWITTER", _("Twitter")
         OTHER = "OTHER", _("Outro")
 
+    store = models.ForeignKey(
+        "group.Store",
+        on_delete=models.CASCADE,
+        related_name="social_medias",
+        verbose_name=_("Loja"),
+        null=True,
+        blank=True,
+    )
     type = models.CharField(max_length=20, choices=Type.choices, default=Type.OTHER)
     value = models.CharField(_("Valor"), max_length=255)
     is_active = models.BooleanField(_("Ativo"), default=True)

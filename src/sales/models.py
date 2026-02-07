@@ -51,6 +51,7 @@ class OrderItem(models.Model):
         on_delete=models.SET_NULL,
         verbose_name=_("Produto"),
         related_name="items",
+        null=True,
     )
     quantity = models.PositiveIntegerField(_("Quantidade"), default=1)
     price = models.DecimalField(_("Preço"), max_digits=10, decimal_places=2)

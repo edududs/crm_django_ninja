@@ -88,7 +88,7 @@ class Address(models.Model):
     class Meta:
         verbose_name = _("Endereço")
         verbose_name_plural = _("Endereços")
-        ordering = ["-customer__date_joined"]
+        ordering = ["-created_at"]
 
     def __str__(self) -> str:
         return f"{self.name} - ({self.city}, {self.number})"

@@ -5,7 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from customer.models import Address, Customer
-from marketing.models import Contact, SocialMedia
+from marketing.models import Contact
 
 
 # Create your models here.
@@ -21,10 +21,10 @@ class Group(models.Model):
     owner = models.ForeignKey[Customer](
         Customer,
         on_delete=models.CASCADE,
-        related_name="groups",
+        related_name="owned_groups",
         verbose_name=_("Cliente"),
     )
-    adresses = models.ManyToManyField(Address, related_name="groups")
+    addresses = models.ManyToManyField(Address, related_name="groups", blank=True)
 
     created_at = models.DateTimeField(_("Data de criação"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Data de atualização"), auto_now=True)
@@ -50,14 +50,13 @@ class Store(models.Model):
     name = models.CharField(_("Nome"), max_length=255)
     cnpj = models.CharField(_("CNPJ"), max_length=255)
     phone = models.CharField(_("Telefone"), max_length=255)
-    adress = models.ForeignKey[Address](
+    address = models.ForeignKey[Address](
         Address,
         on_delete=models.CASCADE,
         related_name="stores",
         verbose_name=_("Endereço"),
     )
-    contacts = models.ManyToManyField(Contact, related_name="stores")
-    social_medias = models.ManyToOneRel(SocialMedia, related_name="stores")
+    contacts = models.ManyToManyField(Contact, related_name="stores", blank=True)
 
     created_at = models.DateTimeField(_("Data de criação"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Data de atualização"), auto_now=True)
