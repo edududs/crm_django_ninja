@@ -4,6 +4,6 @@ from django.urls import path
 from core.api import api
 
 urlpatterns = [
-    path("api/", api.urls),
+    path("", api.urls),
     path("admin/", admin.site.urls),
 ]
