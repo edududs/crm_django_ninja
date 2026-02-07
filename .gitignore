@@ -11,3 +11,4 @@ wheels/
 .env
 local/
 uv.lock
+db.sqlite*
