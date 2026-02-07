@@ -1,14 +1,12 @@
 # pyright: reportIncompatibleVariableOverride=false, reportUninitializedInstanceVariable=false, reportImportCycles=false
-from typing import TYPE_CHECKING
+
+from decimal import Decimal
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from catalog.models import Product
 from customer.models import Customer
-
-if TYPE_CHECKING:
-    from decimal import Decimal
 
 
 # Create your models here.
@@ -54,7 +52,7 @@ class OrderItem(models.Model):
     )
     product = models.ForeignKey[Product](
         Product,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         verbose_name=_("Produto"),
         related_name="items",
     )
